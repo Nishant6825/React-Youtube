@@ -1,25 +1,60 @@
-import logo from './logo.svg';
+
 import './App.css';
 
+import Navbar from './components/Navbar';
+import TextForm from './components/TextForm';
+// import About from './components/About';
+import { useState } from 'react'
+import Alert from './components/Alert';
+
+
+
 function App() {
+
+  const [mode, setmode] = useState('light')
+  const [alert, setalert] = useState(null)
+  let showAlert = (message, type)=>{
+    setalert({
+      msg: message,
+      type: type
+    })
+    setTimeout(() => {
+      setalert(null)
+    }, 2000);
+
+    
+  }
+  const toggle = () =>{
+    if (mode === 'dark'){
+      setmode('light')
+      document.body.style.backgroundColor = 'white'
+      showAlert('Darkmode has been enabled', 'success')
+      document.title = 'Nishant ka WhiteAppit '
+    }else{
+      setmode('dark')
+      document.body.style.backgroundColor = '#8443c3'
+      showAlert('Lightmode has been enabled', 'success')
+      document.title = 'Nishant ka DarkApp'
+
+
+
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      
+        <Navbar title="Textutils" aboutText="About" mode={mode} togglemode={toggle}/>
+        <Alert alert={alert}/>
+        {/* <div className="container"> */}
+        <TextForm  showAlert={showAlert} heading="You can type below" mode={mode}/>
+        {/* <About/> */}
+        
+        {/* </div> */}
+        
+      
+    </>
+  )
 }
+
 
 export default App;
