@@ -3,9 +3,17 @@ import './App.css';
 
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
-// import About from './components/About';
+import About from './components/About';
 import { useState } from 'react'
 import Alert from './components/Alert';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+// import New from './components/New';
+
 
 
 
@@ -13,7 +21,8 @@ function App() {
 
   const [mode, setmode] = useState('light')
   const [alert, setalert] = useState(null)
-  let showAlert = (message, type)=>{
+  
+  let showAlert = (message, type) => {
     setalert({
       msg: message,
       type: type
@@ -21,40 +30,38 @@ function App() {
     setTimeout(() => {
       setalert(null)
     }, 2000);
-
-    
   }
-  const toggle = () =>{
-    if (mode === 'dark'){
+
+  const toggle = () => {
+    if (mode === 'dark') {
       setmode('light')
       document.body.style.backgroundColor = 'white'
       showAlert('Darkmode has been enabled', 'success')
-      document.title = 'Nishant ka WhiteAppit '
-    }else{
+      document.title = 'White Mode'
+    } else {
       setmode('dark')
-      document.body.style.backgroundColor = '#8443c3'
+      document.body.style.backgroundColor = 'grey'
       showAlert('Lightmode has been enabled', 'success')
-      document.title = 'Nishant ka DarkApp'
-
-
-
+      document.title = 'Dark Mode'
     }
   }
   return (
     <>
-      
-        <Navbar title="Textutils" aboutText="About" mode={mode} togglemode={toggle}/>
-        <Alert alert={alert}/>
-        {/* <div className="container"> */}
-        <TextForm  showAlert={showAlert} heading="You can type below" mode={mode}/>
-        {/* <About/> */}
+      <Router>
+        <Navbar title="Textutils"  mode={mode} togglemode={toggle} />
+        <Alert alert={alert} />
         
-        {/* </div> */}
-        
-      
+        < div className="container">
+          <Routes>
+            <Route exact path="/about" element={<About />}>
+            </Route>
+            <Route exact path="/" element={<TextForm showAlert={showAlert} heading="You can type below" mode={mode} />}>
+            </Route>
+          </Routes>
+        </div>
+      </Router>
     </>
   )
 }
-
 
 export default App;
